@@ -1,5 +1,5 @@
 private _action = [
-    "bear_antistasi_looter_transferAction", "Transfer Loot to Vehicle", "a3\ui_f\data\IGUI\Cfg\Actions\loadVehicle_ca.paa",
+    "LootToVehicleExtended_transferAction", "Transfer Loot to Vehicle", "a3\ui_f\data\IGUI\Cfg\Actions\loadVehicle_ca.paa",
     {
         params ["_target", "_player"];
         
@@ -11,12 +11,12 @@ private _action = [
             systemChat "1Tac Antistasi Looter: Error: couldn't find any nearby vehicle";
         } else {
             systemChat "1Tac Antistasi Looter: Using nearest vehicle";
-            [_target, _nearestVehicle] call bear_antistasi_looter_fnc_transferToVehicle;
+            [_target, _nearestVehicle] call LootToVehicleExtended_fnc_transferToVehicle;
         };
     },
     {
         (_target isKindOf "WeaponHolderSimulated" || _target isKindOf "WeaponHolder" || !alive _target) &&
-        {!(_target getVariable ["bear_antistasi_looter", false])} &&
+        {!(_target getVariable ["LootToVehicleExtended", false])} &&
         {[_player, _target] call ace_common_fnc_canInteractWith} &&
         {
             0 < {
@@ -27,7 +27,7 @@ private _action = [
     {
         private _statement = {
             params ["_target", "_player", "_vehicle"];
-            [_target, _vehicle] call bear_antistasi_looter_fnc_transferToVehicle;
+            [_target, _vehicle] call LootToVehicleExtended_fnc_transferToVehicle;
         };
         
         private _vehicles = (nearestObjects [_target, ace_cargo_cargoHolderTypes, 15]) select {
