@@ -67,7 +67,7 @@ systemChat format["1Tac Antistasi Looter: Moving from %1 containers to %2",count
 	};
 	_weight = _weight + loadAbs _x; 
 } forEach _containerList;
-
+if(LootToVehicleExtended_PlayAnimation)then { _player playMoveNow "Acts_carFixingWheel";};
 // Transfer all items found to target vehicle
 systemChat format ["Total mass of items: %1", _weight];
 [(_weight * (LootToVehicleExtended_TransferSpeedSeconds/100)), [_target,_items,_backpacks,_containerList], {
@@ -95,5 +95,5 @@ systemChat format ["Total mass of items: %1", _weight];
 	clearBackpackCargoGlobal _x;
 } forEach _containerList;
 systemChat format ["Total items transferred to target: %1", (count _items + count _backpacks)];
-//player switchMove "";
-}, {/*player switchMove "";*/}, "Transfering items..."] call ace_common_fnc_progressBar;
+player switchMove "";
+}, {player switchMove "";}, "Transfering items..."] call ace_common_fnc_progressBar;
