@@ -16,7 +16,7 @@ if (_isMan) then {
         _items append itemCargo backpackContainer _target;
         _items append weaponCargo backpackContainer _target;
         _items append magazineCargo backpackContainer _target;
-        _items pushBack _backpack;
+        _backpacks pushBack _backpack;
     };
     private _uniform = uniform _target;
     if !(_uniform isEqualTo "")then {
@@ -40,10 +40,14 @@ if (_isMan) then {
     systemChat str(_target);
     _items = magazineCargo _target;
     _items append weaponCargo _target;
-    _backpacks = backpackCargo _target;
-    clearWeaponCargoGlobal _target;
-    clearMagazineCargoGlobal _target;
-    clearBackpackCargoGlobal _target;
+    _items append itemCargo _target;
+    _backpacks append backpackCargo _target;
+    systemChat str (backpackCargo _target);
+    {
+        _items append itemCargo (_x select 1);
+        _items append weaponCargo (_x select 1);
+        _items append magazineCargo (_x select 1);
+    } forEach (everyContainer _target);
 };
 private _weight = loadAbs _target;
 systemChat format ["Total mass of items: %1", _weight];
@@ -64,6 +68,10 @@ removeAllWeapons _target;
 removeBackpackGlobal _target;
 removeUniform _target;
 removeVest _target;
+clearItemCargoGlobal _target:
+clearWeaponCargoGlobal _target;
+clearMagazineCargoGlobal _target;
+clearBackpackCargoGlobal _target;
 systemChat format ["Total items transferred to target: %1", (count _items + count _backpacks)];
 }, {}, "Transfering items..."] call ace_common_fnc_progressBar;
 
