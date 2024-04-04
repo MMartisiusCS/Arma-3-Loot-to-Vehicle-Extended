@@ -8,9 +8,27 @@
     {} // function that will be executed once on mission start and every time the setting is changed.
 ] call CBA_fnc_addSetting;
 [
+    "LootToVehicleExtended_TransferSpeedSeconds", // Internal setting name, should always contain a tag! This will be the global variable which takes the value of the setting.
+    "SLIDER", // setting type
+    ["Transfer speed in seconds", "Amount of seconds to transfer 100 units of weight\nFor example, most rifles in the game are 100 weight units, so a value of 1 second would take 1 second to transfer\nSet to 0 to disable interaction time."], // Pretty name shown inside the ingame settings menu. Can be stringtable entry.
+    "Loot to Vehicle for ACE and Antistasi Modified", // Pretty name of the category where the setting can be found. Can be stringtable entry.
+    [0, 10, 1, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
+    1, // "_isGlobal" flag. Set this to true to always have this setting synchronized between all clients in multiplayer
+    {} // function that will be executed once on mission start and every time the setting is changed.
+] call CBA_fnc_addSetting;
+[
     "LootToVehicleExtended_TransferUniform", // Internal setting name, should always contain a tag! This will be the global variable which takes the value of the setting.
     "CHECKBOX", // setting type
     ["Transfer Uniforms?","TRUE: Uniforms will be transfered to target\nFALSE: Uniforms will NOT be transfered to target"], // Pretty name shown inside the ingame settings menu. Can be stringtable entry.
+    "Loot to Vehicle for ACE and Antistasi Modified", // Pretty name of the category where the setting can be found. Can be stringtable entry.
+    true, // data for this setting: [min, max, default, number of shown trailing decimals]
+    1, // "_isGlobal" flag. Set this to true to always have this setting synchronized between all clients in multiplayer
+    {} // function that will be executed once on mission start and every time the setting is changed.
+] call CBA_fnc_addSetting;
+[
+    "LootToVehicleExtended_PlayAnimation", // Internal setting name, should always contain a tag! This will be the global variable which takes the value of the setting.
+    "CHECKBOX", // setting type
+    ["Play animation while transfering?","TRUE: Animation will be played until action is finished or canceled\nFALSE: No animation will be played"], // Pretty name shown inside the ingame settings menu. Can be stringtable entry.
     "Loot to Vehicle for ACE and Antistasi Modified", // Pretty name of the category where the setting can be found. Can be stringtable entry.
     true, // data for this setting: [min, max, default, number of shown trailing decimals]
     1, // "_isGlobal" flag. Set this to true to always have this setting synchronized between all clients in multiplayer
