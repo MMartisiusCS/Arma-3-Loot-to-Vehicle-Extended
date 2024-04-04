@@ -37,7 +37,7 @@ if (_isMan) then {
     
     //_target setVariable ["LootToVehicleExtended", true, true];
 } else {
-    systemChat str(vestContainer _target);
+    systemChat str(_target);
     _items = magazineCargo _target;
     _items append weaponCargo _target;
     _backpacks = backpackCargo _target;
