@@ -3,7 +3,7 @@ private _items = [];
 private _backpacks = [];
 private _isMan = _target isKindOf "CAManBase";
 private _targetTypeStr = ["ground", "body"] select _isMan;
-if(LootToVehicleExtended_PlayAnimation)then { _player playMoveNow "Acts_carFixingWheel"; hint "Animation Attempted";};
+if(LootToVehicleExtended_PlayAnimation)then { _player playMoveNow "Acts_carFixingWheel";};
 systemChat format ["1Tac Antistasi Looter: from %1 into %2", _targetTypeStr, getText (configFile >> "CfgVehicles" >> typeOf _vehicle >> "displayname")];
 if (_isMan) then {
     if (primaryWeapon _target != "") then{
