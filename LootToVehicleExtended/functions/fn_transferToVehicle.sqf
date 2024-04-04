@@ -16,7 +16,10 @@ if (_isMan) then {
         _items append itemCargo backpackContainer _target;
         _items append weaponCargo backpackContainer _target;
         _items append magazineCargo backpackContainer _target;
-        _backpacks pushBack _backpack;
+        _backpacks pushBack (_backpack call BIS_fnc_basicBackpack);
+        {
+            _backpacks pushBack (_x call BIS_fnc_basicBackpack);
+        } forEach backpackCargo (backpackContainer _target);
     };
     private _uniform = uniform _target;
     if !(_uniform isEqualTo "")then {
@@ -37,21 +40,24 @@ if (_isMan) then {
     
     //_target setVariable ["LootToVehicleExtended", true, true];
 } else {
-    systemChat str(_target);
     _items = magazineCargo _target;
     _items append weaponCargo _target;
     _items append itemCargo _target;
-    _backpacks append backpackCargo _target;
-    systemChat str (backpackCargo _target);
+    {
+        _backpacks pushBack (_x call BIS_fnc_basicBackpack);
+    } forEach backpackCargo _target;
     {
         _items append itemCargo (_x select 1);
         _items append weaponCargo (_x select 1);
         _items append magazineCargo (_x select 1);
+        {
+        _backpacks pushBack (_x call BIS_fnc_basicBackpack);
+        } forEach backpackCargo (_x select 1);
     } forEach (everyContainer _target);
 };
 private _weight = loadAbs _target;
 systemChat format ["Total mass of items: %1", _weight];
-[(_weight / 100), [_target,_items,_backpacks,_vehicle], {
+[(_weight * (LootToVehicleExtended_TransferSpeedSeconds/100)), [_target,_items,_backpacks,_vehicle], {
     _target = _args select 0;
     _items = _args select 1;
     _backpacks = _args select 2;
@@ -74,7 +80,3 @@ clearMagazineCargoGlobal _target;
 clearBackpackCargoGlobal _target;
 systemChat format ["Total items transferred to target: %1", (count _items + count _backpacks)];
 }, {}, "Transfering items..."] call ace_common_fnc_progressBar;
-
-
-
-
