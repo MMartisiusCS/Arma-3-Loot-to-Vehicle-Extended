@@ -1,14 +1,11 @@
-params ["_target", "_vehicle"];
+params ["_target", "_vehicle", "_player"];
 private _items = [];
 private _backpacks = [];
 private _isMan = _target isKindOf "CAManBase";
 private _targetTypeStr = ["ground", "body"] select _isMan;
-
+if(LootToVehicleExtended_PlayAnimation)then { _player playMoveNow "Acts_carFixingWheel"; hint "Animation Attempted";};
 systemChat format ["1Tac Antistasi Looter: from %1 into %2", _targetTypeStr, getText (configFile >> "CfgVehicles" >> typeOf _vehicle >> "displayname")];
-
 if (_isMan) then {
-    //_items = magazines _target;
-    //_items = weapons _target;
     if (primaryWeapon _target != "") then{
         _items append (_target weaponAccessories primaryWeapon _target);
         _items pushBack ((primaryWeapon _target) call BIS_fnc_baseWeapon);
@@ -38,7 +35,7 @@ if (_isMan) then {
         _items append itemCargo uniformContainer _target;
         _items append weaponCargo uniformContainer _target;
         _items append magazineCargo uniformContainer _target;
-        if (LootToVehicleExtended_TransferUniformWithItems) then {
+        if (LootToVehicleExtended_TransferUniform) then {
             _items pushBack _uniform;
         };
     };
@@ -49,8 +46,6 @@ if (_isMan) then {
         _items append magazineCargo vestContainer _target;
         _items pushBack _vest;
     };
-    
-    //_target setVariable ["LootToVehicleExtended", true, true];
 } else {
     _items = magazineCargo _target;
     _items append weaponCargo _target;
@@ -77,18 +72,18 @@ systemChat format ["Total mass of items: %1", _weight];
 {
     _vehicle addItemCargoGlobal [_x, 1];
 } forEach _items;
-
 {
     _vehicle addBackpackCargoGlobal [_x, 1];
 } forEach _backpacks;
 removeAllAssignedItems [_target, true, true];
 removeAllWeapons _target;
 removeBackpackGlobal _target;
-removeUniform _target;
+if (LootToVehicleExtended_TransferUniform) then {removeUniform _target;};
 removeVest _target;
 clearItemCargoGlobal _target:
 clearWeaponCargoGlobal _target;
 clearMagazineCargoGlobal _target;
 clearBackpackCargoGlobal _target;
 systemChat format ["Total items transferred to target: %1", (count _items + count _backpacks)];
-}, {}, "Transfering items..."] call ace_common_fnc_progressBar;
+player switchMove "";
+}, {player switchMove "";}, "Transfering items..."] call ace_common_fnc_progressBar;
