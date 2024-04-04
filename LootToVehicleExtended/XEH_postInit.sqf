@@ -48,7 +48,7 @@ private _action = [
             systemChat "1Tac Antistasi Looter: Error: couldn't find any nearby vehicle";
         } else {
             systemChat "1Tac Antistasi Looter: Using nearest vehicle";
-            [_target, _nearestVehicle] call LootToVehicleExtended_fnc_transferToVehicle;
+            [_target, _nearestVehicle, _player] call LootToVehicleExtended_fnc_transferToVehicle;
         };
     },
     {
@@ -64,7 +64,7 @@ private _action = [
     {
         private _statement = {
             params ["_target", "_player", "_vehicle"];
-            [_target, _vehicle] call LootToVehicleExtended_fnc_transferToVehicle;
+            [_target, _nearestVehicle, _player] call LootToVehicleExtended_fnc_transferToVehicle;
         };
         
         private _vehicles = (nearestObjects [_target, ace_cargo_cargoHolderTypes, LootToVehicleExtended_MaxTransferDistance]) select {
