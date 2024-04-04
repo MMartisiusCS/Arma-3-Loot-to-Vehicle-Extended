@@ -8,7 +8,8 @@ systemChat format ["1Tac Antistasi Looter: from %1 into %2", _targetTypeStr, get
 
 if (_isMan) then {
     //_items = magazines _target;
-    _items = weapons _target;
+    //_items = weapons _target;
+    if (primaryWeapon _target != "") then{_items append (_target weaponAccessories primaryWeapon _target)};
     _items append assignedItems [_target, true, true];
     
     private _backpack = backpack _target;
