@@ -25,9 +25,14 @@ systemChat format["1Tac Antistasi Looter: Moving from %1 containers to %2",count
 	
     	private _backpack = backpack _x;
     	if !(_backpack isEqualTo "") then {
+			_items append magazineCargo backpackContainer _x;
     	    _items append itemCargo backpackContainer _x;
-    	    _items append weaponCargo backpackContainer _x;
-    	    _items append magazineCargo backpackContainer _x;
+			{
+				_items pushBack (_x call BIS_fnc_baseWeapon);
+			} forEach (weaponCargo backpackContainer _x);
+			{
+				_items append (_x select {!(typeName _x == "ARRAY")} select [1,4]);
+			} forEach (weaponsItemsCargo backpackContainer _x);
     	    _backpacks pushBack (_backpack call BIS_fnc_basicBackpack);
     	    {
     	        _backpacks pushBack (_x call BIS_fnc_basicBackpack);
@@ -36,8 +41,13 @@ systemChat format["1Tac Antistasi Looter: Moving from %1 containers to %2",count
     	private _uniform = uniform _x;
     	if !(_uniform isEqualTo "")then {
     	    _items append itemCargo uniformContainer _x;
-    	    _items append weaponCargo uniformContainer _x;
-    	    _items append magazineCargo uniformContainer _x;
+			_items append magazineCargo uniformContainer _x;
+    	    {
+				_items pushBack (_x call BIS_fnc_baseWeapon);
+			} forEach (weaponCargo uniformContainer _x);
+			{
+				_items append (_x select {!(typeName _x == "ARRAY")} select [1,4]);
+			} forEach (weaponsItemsCargo uniformContainer _x);
     	    if (LootToVehicleExtended_TransferUniform) then {
     	        _items pushBack _uniform;
     	    };
@@ -45,23 +55,38 @@ systemChat format["1Tac Antistasi Looter: Moving from %1 containers to %2",count
     	private _vest = vest _x;
     	if !(_vest isEqualTo "") then {
     	    _items append itemCargo vestContainer _x;
-    	    _items append weaponCargo vestContainer _x;
-    	    _items append magazineCargo vestContainer _x;
+			_items append magazineCargo vestContainer _x;
+    	    {
+				_items pushBack (_x call BIS_fnc_baseWeapon);
+			} forEach (weaponCargo vestContainer _x);
+			{
+				_items append (_x select {!(typeName _x == "ARRAY")} select [1,4]);
+			} forEach (weaponsItemsCargo vestContainer _x);
     	    _items pushBack _vest;
     	};
 	} else {
     _items append magazineCargo _x;
-    _items append weaponCargo _x;
     _items append itemCargo _x;
+	{
+		_items pushBack (_x call BIS_fnc_baseWeapon);
+	} forEach weaponCargo _x;
+	{
+		_items append (_x select {!(typeName _x == "ARRAY")} select [1,4]);
+	} forEach (weaponsItemsCargo _x);
     {
         _backpacks pushBack (_x call BIS_fnc_basicBackpack);
     } forEach backpackCargo _x;
     {
         _items append itemCargo (_x select 1);
-        _items append weaponCargo (_x select 1);
-        _items append magazineCargo (_x select 1);
+		_items append magazineCargo (_x select 1);
         {
-        _backpacks pushBack (_x call BIS_fnc_basicBackpack);
+			_items pushBack (_x call BIS_fnc_baseWeapon);
+		} forEach weaponCargo (_x select 1);
+		{
+			_items append (_x select {!(typeName _x == "ARRAY")} select [1,4]);
+		} forEach (weaponsItemsCargo (_x select 1));
+        {
+        	_backpacks pushBack (_x call BIS_fnc_basicBackpack);
         } forEach backpackCargo (_x select 1);
     } forEach (everyContainer _x);
 	};
