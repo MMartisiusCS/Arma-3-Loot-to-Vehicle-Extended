@@ -48,7 +48,7 @@ private _action = [
             systemChat "1Tac Antistasi Looter: Error: couldn't find any nearby vehicle";
         } else {
             systemChat "1Tac Antistasi Looter: Using nearest vehicle";
-            [_target, _nearestVehicle, _player] call LootToVehicleExtended_fnc_transferToVehicle;
+            [_nearestVehicle,[_target],_player] call LootToVehicleExtended_fnc_transferToVehicle;
         };
     },
     {
@@ -64,7 +64,7 @@ private _action = [
     {
         private _statement = {
             params ["_target", "_player", "_vehicle"];
-            [_target, _nearestVehicle, _player] call LootToVehicleExtended_fnc_transferToVehicle;
+            [_nearestVehicle,[_target],_player] call LootToVehicleExtended_fnc_transferToVehicle;
         };
         
         private _vehicles = (nearestObjects [_target, ace_cargo_cargoHolderTypes, LootToVehicleExtended_MaxTransferDistance]) select {
@@ -96,7 +96,7 @@ private _actionVehicle = [
             [_target, _nearestVehicle, _player] call LootToVehicleExtended_fnc_transferToVehicle;
         };
         */
-        [_target,_player,_containerList] call LootToVehicleExtended_fnc_transferToVehicleTest;
+        [_target,_containerList,_player] call LootToVehicleExtended_fnc_transferToVehicle;
     },
     {
         (_target isKindOf "Car" || _target isKindOf "Air" || _target isKindOf "Tank" || _target isKindOf "Ship" ) && (count (nearestObjects[_target,["CAManBase","WeaponHolder","WeaponHolderSimulated"],LootToVehicleExtended_MaxTransferDistance] select {!alive _x || !(_x isKindOf "CAManBase")}) > 0);

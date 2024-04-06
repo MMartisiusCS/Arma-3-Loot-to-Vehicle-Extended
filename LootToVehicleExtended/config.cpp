@@ -31,9 +31,6 @@ class CfgFunctions
 			class transferToVehicle
 			{
 			};
-            class transferToVehicleTest
-			{
-			};
 		};
 	};
 };
