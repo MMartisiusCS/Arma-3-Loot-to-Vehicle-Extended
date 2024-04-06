@@ -92,14 +92,21 @@ systemChat format["1Tac Antistasi Looter: Moving from %1 containers to %2",count
 	};
 	_weight = _weight + loadAbs _x; 
 } forEach _containerList;
-if(LootToVehicleExtended_PlayAnimation)then { _player playMoveNow "Acts_carFixingWheel";};
+_animLoop = null;
+if(LootToVehicleExtended_PlayAnimation) then { 
+	_player playMoveNow "Acts_carFixingWheel";
+	_animLoop = player addEventHandler ["AnimDone", { player switchMove "Acts_carFixingWheel";}];
+} else {
+	_animLoop = -1;
+};
 // Transfer all items found to target vehicle
 systemChat format ["Total mass of items: %1", _weight];
-[(_weight * (LootToVehicleExtended_TransferSpeedSeconds/100)), [_targetVehicle,_items,_backpacks,_containerList], {
+[(_weight * (LootToVehicleExtended_TransferSpeedSeconds/100)), [_targetVehicle,_items,_backpacks,_containerList,_animLoop], {
     _vehicle = _args select 0;
     _items = _args select 1;
     _backpacks = _args select 2;
     _containerList = _args select 3;
+	_animLoop = _args select 4;
 {
     _vehicle addItemCargoGlobal [_x, 1];
 } forEach _items;
@@ -120,5 +127,14 @@ systemChat format ["Total mass of items: %1", _weight];
 	clearBackpackCargoGlobal _x;
 } forEach _containerList;
 systemChat format ["Total items transferred to target: %1", (count _items + count _backpacks)];
+if !(_animLoop == -1) then {
+		player removeEventHandler ["AnimDone", _animLoop];
+};
 player switchMove "";
-}, {player switchMove "";}, "Transfering items..."] call ace_common_fnc_progressBar;
+}, {
+	_animLoop = _args select 4;
+	if !(_animLoop == -1) then {
+		player removeEventHandler ["AnimDone", _animLoop];
+	};
+	player switchMove "";
+}, "Transfering items..."] call ace_common_fnc_progressBar;
